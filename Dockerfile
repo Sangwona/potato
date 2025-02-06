@@ -1,5 +1,5 @@
 # 1. JDK 17 기반의 이미지 사용
-FROM openjdk:17-jdk-slim
+FROM docker.io/library/openjdk:17-jdk-slim
 
 # 2. 컨테이너 내에서 작업할 디렉토리 생성
 WORKDIR /app
