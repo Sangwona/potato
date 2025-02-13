@@ -1,36 +1,44 @@
 package com.potatostudios.ecard.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
 import java.util.UUID;
 
 @Entity
-@Data
+@Table(name = "ecards")
 @Getter
 @Setter
-@NoArgsConstructor
 public class ECard {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;  // 카드 ID (랜덤 UUID)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     @Column(nullable = false)
-    private String message;  // 사용자 입력 메시지
-    private String eventDate;
-    private String location;
-    private String senderName;
-    private String senderEmail;
-    private String receiverName;
-    private String receiverEmail;
+    private String title;
 
+    @Column(nullable = false)
+    private String message;
 
-    @Transient  // 이 필드는 DB에 저장되지 않도록 설정
-    public String getShareableLink() {
-        return "http://localhost:8080/ecard/" + id;
+    @Column(nullable = false)
+    private String sender;
+
+    @Column(nullable = false)
+    private String recipient;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false) // 외래 키(FK) 설정
+    private User user;
+
+    public ECard() {}
+
+    public ECard(String title, String message, String sender, String recipient, User user) {
+        this.title = title;
+        this.message = message;
+        this.sender = sender;
+        this.recipient = recipient;
+        this.user = user;
     }
 }

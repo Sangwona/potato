@@ -21,6 +21,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.projectlombok:lombok'
+	implementation 'io.github.cdimascio:dotenv-java:3.0.0'
+	implementation 'org.postgresql:postgresql' // Use the latest version
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	annotationProcessor 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'

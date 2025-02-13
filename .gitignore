@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+## environment variables
+env.properties
+application.properties
+
+
