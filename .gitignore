@@ -37,7 +37,8 @@ out/
 .vscode/
 
 ## environment variables
-env.properties
+.env
+*/.env
 application.properties
 src/main/resources/application.properties
 

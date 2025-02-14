@@ -24,6 +24,7 @@ dependencies {
 	implementation 'io.github.cdimascio:dotenv-java:3.0.0'
 	implementation 'org.postgresql:postgresql' // Use the latest version
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'io.github.cdimascio:dotenv-java:3.0.0'
 
 	annotationProcessor 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
