@@ -39,5 +39,7 @@ out/
 ## environment variables
 env.properties
 application.properties
+src/main/resources/application.properties
 
+.DS_Store
 
