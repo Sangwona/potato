@@ -37,7 +37,7 @@ out/
 .vscode/
 
 ## environment variables
-.env
+src/main/resources/.env
 */.env
 
 .DS_Store
