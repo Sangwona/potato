@@ -2,16 +2,31 @@ spring:
   application:
     name: ecard
 
+  security:
+    user:
+      name: ""
+      password: ""
+
+    main:
+      lazy-initialization: true
+
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 2
+      idle-timeout: 10000
+      connection-timeout: 30000
+      max-lifetime: 600000
 
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
+    open-in-view: false
 
 ecard:
   frontend:
@@ -20,6 +35,8 @@ ecard:
 logging:
   level:
     org.hibernate.SQL: DEBUG
+
+
 
   # Uncomment if you want Spring Framework debugging logs
   # org.springframework: DEBUG

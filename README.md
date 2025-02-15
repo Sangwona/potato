@@ -8,9 +8,7 @@ docker build -t ecard-app .
 docker inspect ecard-app
 ```
 
-# docker run
+# docker run locally
 ```sh
 docker run --env-file .env -p 8080:8080 ecard-app
 ```
-
-
