@@ -79,17 +79,33 @@
 #============================================
 
 # Use the official Gradle image to build the JAR
+# Use the official Gradle image to build the JAR
 FROM gradle:7.5.1-jdk17 AS build
 WORKDIR /app
-COPY . /app
-RUN gradle build --no-daemon
+
+# Copy only Gradle wrapper & build files first (to cache dependencies)
+COPY gradlew ./
+COPY gradle gradle
+COPY build.gradle settings.gradle ./
+
+# Give Gradle Wrapper execute permissions
+RUN chmod +x gradlew
+
+# Download dependencies (this step is cached)
+RUN ./gradlew dependencies --no-daemon
+
+# Copy the rest of the application code
+COPY . .
+
+# Build the JAR inside Docker
+RUN ./gradlew build --no-daemon
 
 # Use a smaller OpenJDK image for the final application
 FROM openjdk:17
 WORKDIR /app
 
 # Copy the built JAR from the build stage
-COPY --from=build /app/build/libs/ecard-0.0.1-SNAPSHOT.jar ecard.jar
+COPY --from=build /app/build/libs/*.jar ecard.jar
 
 # Set environment variables (will be overridden by Render)
 ENV DB_URL=${DB_URL}
