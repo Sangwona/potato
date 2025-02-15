@@ -78,13 +78,20 @@
 
 #============================================
 
+# Use the official Gradle image to build the JAR
+FROM gradle:7.5.1-jdk17 AS build
+WORKDIR /app
+COPY . /app
+RUN gradle build --no-daemon
+
+# Use a smaller OpenJDK image for the final application
 FROM openjdk:17
 WORKDIR /app
 
-# Use Gradle build directory instead of target/
-COPY build/libs/ecard-0.0.1-SNAPSHOT.jar ecard.jar
+# Copy the built JAR from the build stage
+COPY --from=build /app/build/libs/ecard-0.0.1-SNAPSHOT.jar ecard.jar
 
-# Set environment variables (Docker Compose will override them)
+# Set environment variables (will be overridden by Render)
 ENV DB_URL=${DB_URL}
 ENV DB_USERNAME=${DB_USERNAME}
 ENV DB_PASSWORD=${DB_PASSWORD}
