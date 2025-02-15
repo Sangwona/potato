@@ -2,11 +2,6 @@ spring:
   application:
     name: ecard
 
-  security:
-    user:
-      name: ""
-      password: ""
-
     main:
       lazy-initialization: true
 
