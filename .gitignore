@@ -39,6 +39,7 @@ out/
 ## environment variables
 src/main/resources/.env
 */.env
+.env
 
 .DS_Store
 

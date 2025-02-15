@@ -38,40 +38,56 @@
 #CMD ["java", "-jar", "app.jar"]
 
 #---------------------------
-
+#
 # Stage 1: Build
-FROM openjdk:17-jdk-slim AS build
+#FROM openjdk:17-jdk-slim AS build
+#
+#WORKDIR /app
+#
+## 환경변수를 ARG로 선언
+#ARG DB_URL
+#ARG DB_USERNAME
+#ARG DB_PASSWORD
+#
+## 환경변수를 ENV로 설정 (빌드 단계에서 사용)
+#ENV DB_URL=${DB_URL}
+#ENV DB_USERNAME=${DB_USERNAME}
+#ENV DB_PASSWORD=${DB_PASSWORD}
+#
+## 프로젝트 복사 및 빌드
+#COPY . .
+#RUN ./gradlew clean build -x test --no-daemon
+#
+## Stage 2: Run
+#FROM openjdk:17-jdk-slim
+#WORKDIR /app
+#
+## 빌드된 JAR 복사
+#COPY --from=build /app/build/libs/*.jar app.jar
+#
+## 런타임 환경변수 설정 (빌드 시 전달된 ARG 값을 사용하지 않음)
+#ENV DATABASE_URL=${DB_URL}
+#ENV DATABASE_USER=${DB_USER}
+#ENV DATABASE_PASSWORD=${DB_PASSWORD}
+#
+## 애플리케이션 실행
+#CMD ["sh", "-c", "java -Dspring.datasource.url=$DATABASE_URL \
+#                  -Dspring.datasource.username=$DATABASE_USER \
+#                  -Dspring.datasource.password=$DATABASE_PASSWORD \
+#                  -jar app.jar"]
 
+#============================================
+
+FROM openjdk:17
 WORKDIR /app
 
-# 환경변수를 ARG로 선언
-ARG DB_URL
-ARG DB_USERNAME
-ARG DB_PASSWORD
+# Use Gradle build directory instead of target/
+COPY build/libs/ecard-0.0.1-SNAPSHOT.jar ecard.jar
 
-# 환경변수를 ENV로 설정 (빌드 단계에서 사용)
+# Set environment variables (Docker Compose will override them)
 ENV DB_URL=${DB_URL}
 ENV DB_USERNAME=${DB_USERNAME}
 ENV DB_PASSWORD=${DB_PASSWORD}
 
-# 프로젝트 복사 및 빌드
-COPY . .
-RUN ./gradlew clean build -x test --no-daemon
-
-# Stage 2: Run
-FROM openjdk:17-jdk-slim
-WORKDIR /app
-
-# 빌드된 JAR 복사
-COPY --from=build /app/build/libs/*.jar app.jar
-
-# 런타임 환경변수 설정 (빌드 시 전달된 ARG 값을 사용하지 않음)
-ENV DATABASE_URL=${DATABASE_URL}
-ENV DATABASE_USER=${DATABASE_USER}
-ENV DATABASE_PASSWORD=${DATABASE_PASSWORD}
-
-# 애플리케이션 실행
-CMD ["sh", "-c", "java -Dspring.datasource.url=$DATABASE_URL \
-                  -Dspring.datasource.username=$DATABASE_USER \
-                  -Dspring.datasource.password=$DATABASE_PASSWORD \
-                  -jar app.jar"]
+# Run the application
+ENTRYPOINT ["java", "-jar", "ecard.jar"]
