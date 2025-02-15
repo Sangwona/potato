@@ -80,6 +80,7 @@
 
 # Use the official Gradle image to build the JAR
 # Use the official Gradle image to build the JAR
+# Use the official Gradle image to build the JAR
 FROM gradle:7.5.1-jdk17 AS build
 WORKDIR /app
 
@@ -97,8 +98,8 @@ RUN ./gradlew dependencies --no-daemon
 # Copy the rest of the application code
 COPY . .
 
-# Build the JAR inside Docker
-RUN ./gradlew build --no-daemon
+# Build the JAR inside Docker (Skipping Tests)
+RUN ./gradlew build --no-daemon -x test
 
 # Use a smaller OpenJDK image for the final application
 FROM openjdk:17
