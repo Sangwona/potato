@@ -24,6 +24,10 @@ dependencies {
 	implementation 'io.github.cdimascio:dotenv-java:3.0.0'
 	implementation 'org.postgresql:postgresql' // Use the latest version
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3' // Core implementation
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3' // JSON support (or use jjwt-gson)
 
 	annotationProcessor 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
